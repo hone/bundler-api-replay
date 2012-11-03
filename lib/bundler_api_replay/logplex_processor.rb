@@ -2,7 +2,14 @@ require 'time'
 require_relative '../bundler_api_replay'
 
 class BundlerApiReplay::LogplexProcessor
-  LineRegex = /^\d+ \<\d+\>1 (\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00) [a-z0-9-]+ ([a-z0-9\-\_\.]+) ([a-z0-9\-\_\.]+) \- (.*)$/
+  LineRegex = %r{
+    (?<time>\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00){0}
+    (?<process>[a-z0-9\-\_\.]+){0}
+    (?<uuid>[a-z0-9\-\_\.]+){0}
+    (?<body>.*){0}
+
+    ^\d+\s\<\d+\>1\s\g<time>\s[a-z0-9-]+\s\g<process>\s\g<uuid>\s\-\s\g<body>$
+  }x
 
   attr_reader :time, :process, :uuid, :body
 
@@ -10,9 +17,9 @@ class BundlerApiReplay::LogplexProcessor
     @input     = input
     match_data = LineRegex.match(input)
 
-    @time    = Time.parse(match_data[1])
-    @process = match_data[2]
-    @uuid    = match_data[3]
-    @body    = match_data[4]
+    @time    = Time.parse(match_data[:time])
+    @process = match_data[:process]
+    @uuid    = match_data[:uuid]
+    @body    = match_data[:body]
   end
 end
