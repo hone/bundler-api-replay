@@ -23,7 +23,7 @@ class BundlerApiReplay::Web < Sinatra::Base
       request = lr.request
 
       @sites.each do |host, port|
-        job = BundlerApiReplay::Job.new(request, host, port)
+        job = BundlerApiReplay::Job.new("http://#{request}", host, port)
         @pool.enq(job)
       end
     end
