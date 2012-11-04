@@ -13,14 +13,15 @@ class BundlerApiReplay::Web < Sinatra::Base
 
   post "/logs" do
     body = request.body.read
-    logger.info("BODY #{body}")
+    lr   = BundlerApiReplay::LogplexRouter.new(body)
 
-    lr      = BundlerApiReplay::LogplexRouter.new(body)
-    request = lr.request
+    if lr.from_router?
+      request = lr.request
 
-    @sites.each do |host, port|
-      job = BundlerApiReplay::Job.new(request, host, port)
-      @pool.enq(job)
+      @sites.each do |host, port|
+        job = BundlerApiReplay::Job.new(request, host, port)
+        @pool.enq(job)
+      end
     end
 
     ""

@@ -20,13 +20,22 @@ class BundlerApiReplay::LogplexRouter < BundlerApiReplay::LogplexProcessor
     super(input)
 
     md = RouterRegex.match(@body)
-    @method  = md[:method]
-    @request = md[:request]
-    @dyno    = md[:dyno]
-    @queue   = md[:queue]
-    @wait    = md[:wait]
-    @service = md[:service]
-    @status  = md[:status]
-    @bytes   = md[:bytes]
+    if md
+      @match   = true
+      @method  = md[:method]
+      @request = md[:request]
+      @dyno    = md[:dyno]
+      @queue   = md[:queue]
+      @wait    = md[:wait]
+      @service = md[:service]
+      @status  = md[:status]
+      @bytes   = md[:bytes]
+    else
+      @match = false
+    end
+  end
+
+  def from_router?
+    @match
   end
 end
