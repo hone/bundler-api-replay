@@ -12,6 +12,8 @@ class BundlerApiReplay::Web < Sinatra::Base
   end
 
   post "/logs" do
+    logger.info("Pool Size: #{@pool.queue_size}")
+
     body = request.body.read
     lr   = BundlerApiReplay::LogplexRouter.new(body)
 
