@@ -12,7 +12,10 @@ class BundlerApiReplay::Web < Sinatra::Base
   end
 
   post "/logs" do
-    lr      = BundlerApiReplay::LogplexRouter.new(request.body.read)
+    body = request.body.read
+    logger.info("BODY #{body}")
+
+    lr      = BundlerApiReplay::LogplexRouter.new(body)
     request = lr.request
 
     @sites.each do |host, port|
