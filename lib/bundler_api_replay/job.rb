@@ -4,7 +4,7 @@ require_relative '../bundler_api_replay'
 
 class BundlerApiReplay::Job
   def initialize(request, host, port = nil)
-    @request = URI.parse(request)
+    @request = URI.parse("http://#{request}")
     @host    = host
     @port    = port
 
@@ -15,6 +15,6 @@ class BundlerApiReplay::Job
 
   def run
     http = Net::HTTP.new(@host, @port)
-    http.request(Net::HTTP::Get.new("#{@request.path}#{@request.query}"))
+    http.request(Net::HTTP::Get.new("#{@request.path}?#{@request.query}"))
   end
 end
