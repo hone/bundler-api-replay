@@ -26,6 +26,10 @@ module BundlerApi
       @size.times { @queue.enq(POISON) }
     end
 
+    def queue_size
+      @queue.size
+    end
+
     private
     def create_thread
       Thread.new {

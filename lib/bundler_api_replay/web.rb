@@ -19,5 +19,7 @@ class BundlerApiReplay::Web < Sinatra::Base
       job = BundlerApiReplay::Job.new(request, host, port)
       @pool.enq(job)
     end
+
+    ""
   end
 end

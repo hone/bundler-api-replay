@@ -9,4 +9,5 @@ group :test do
   gem 'rspec-core'
   gem 'rspec-expectations'
   gem 'rake'
+  gem 'rack-test'
 end
