@@ -8,7 +8,7 @@ Thread.abort_on_exception = true
 NUM_THREADS = 3
 
 pool  = BundlerApi::ConsumerPool.new(NUM_THREADS)
-sites = [ENV['DEST_HOST'], ENV['DEST_PORT']]
+sites = [[ENV['DEST_HOST'], ENV['DEST_PORT']]]
 
 pool.start
 
