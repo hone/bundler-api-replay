@@ -31,8 +31,6 @@ describe BundlerApiReplay::Web do
       it "does not enqueue a job" do
         post "/logs", input
 
-        File.open('/tmp/rack-test.html', 'w') {|file| file.puts last_response.body }
-
         expect(pool.queue_size).to eq(0)
         expect(last_response.status).to eq(200)
       end
