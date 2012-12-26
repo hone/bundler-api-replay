@@ -15,7 +15,7 @@ describe BundlerApiReplay::Web do
 
   context "post /logs" do
     context "when a router log" do
-      let(:input) { "339 <158>1 2012-11-02T20:51:42+00:00 heroku router d.030f3924-0da0-4be1-8a33-6b476c52e3ea - GET bundler-api.herokuapp.com/api/v1/dependencies?gems=SexpProcessor,oauth2,roauth,ruby_core_source,simple_oauth,windows-api,win32-api,bones-rcov,bones-rubyforge,bones-rspec,bones-zentest dyno=web.5 queue=0 wait=0ms service=27ms status=200 bytes=8518" }
+      let(:input) { "2012-12-26T18:12:38+00:00 heroku[router]: at=info method=GET path=/api/v1/dependencies?gems=bones-rcov,bones-rubyforge,bones-rspec,bones-zentest,net-ssh,linecache host=bundler-api.herokuapp.com fwd=72.4.120.81 dyno=web.11 queue=0 wait=0ms connect=1ms service=11ms status=200 bytes=5613" }
 
       it "enqueues jobs if a router request" do
         post "/logs", input
@@ -26,7 +26,7 @@ describe BundlerApiReplay::Web do
     end
 
     context "when a sinatra log" do
-      let(:input) { %q{348 <13>1 2012-11-04T08:37:34+00:00 app web.2 d.030f3924-0da0-4be1-8a33-6b476c52e3ea - 72.4.120.81 - - [04/Nov/2012 08:37:34] "GET /api/v1/dependencies?gems=rails,devise,sqlite3,sass-rails,coffee-rails,uglifier,jquery-rails,rails-backbone,powder,awesome_print,annotate,jasmine-headless-webkit,jasmine,jasminerice,rspec-rails HTTP/1.1" 200 93127 0.1165"} }
+      let(:input) { %q{2012-12-26T18:12:38+00:00 app[web.4]: 72.4.120.81 - - [26/Dec/2012 18:12:38] "GET /api/v1/dependencies?gems=mhennemeyer-output_catcher,peterwald-git,schacon-git,tenderlove-frex,relevance-rcov,mojombo-chronic,rspec_junit_formatter,mislav-will_paginate,mongodb-mongo,spicycode-rcov,faraday,hashie,multi_xml,yajl-ruby,net-http-digest_auth HTTP/1.1" 200 9955 0.0109} }
 
       it "does not enqueue a job" do
         post "/logs", input

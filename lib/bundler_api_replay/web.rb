@@ -20,7 +20,7 @@ class BundlerApiReplay::Web < Sinatra::Base
     lr   = BundlerApiReplay::LogplexRouter.new(body)
 
     if lr.from_router?
-      request = lr.request
+      request = lr.path
 
       @sites.each do |host, port|
         job = BundlerApiReplay::Job.new(request, host, port)
