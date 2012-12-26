@@ -1,5 +1,6 @@
 require 'time'
 require_relative '../bundler_api_replay'
+require_relative 'errors'
 
 class BundlerApiReplay::LogplexProcessor
   LineRegex = %r{
@@ -16,8 +17,12 @@ class BundlerApiReplay::LogplexProcessor
     @input     = input
     match_data = LineRegex.match(input)
 
-    @time    = Time.parse(match_data[:time])
-    @process = match_data[:process]
-    @body    = match_data[:body]
+    if match_data
+      @time    = Time.parse(match_data[:time])
+      @process = match_data[:process]
+      @body    = match_data[:body]
+    else
+      raise BundlerApiReplay::LogParseError.new("Could not parse: #{input}")
+    end
   end
 end

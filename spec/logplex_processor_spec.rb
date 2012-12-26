@@ -49,4 +49,12 @@ describe BundlerApiReplay::LogplexProcessor do
       expect(logplex_processor.body).to eq(%q{72.4.120.81 - - [26/Dec/2012 18:12:38] "GET /api/v1/dependencies?gems=mhennemeyer-output_catcher,peterwald-git,schacon-git,tenderlove-frex,relevance-rcov,mojombo-chronic,rspec_junit_formatter,mislav-will_paginate,mongodb-mongo,spicycode-rcov,faraday,hashie,multi_xml,yajl-ruby,net-http-digest_auth HTTP/1.1" 200 9955 0.0109})
     end
   end
+
+  context "when it's a non-parseable line" do
+    let(:input) { "oedu8204lau" }
+
+    it "throws an exception for errors" do
+      expect {logplex_processor }.to raise_error(BundlerApiReplay::LogParseError)
+    end
+  end
 end
