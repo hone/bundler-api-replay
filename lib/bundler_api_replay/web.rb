@@ -22,6 +22,7 @@ class BundlerApiReplay::Web < Sinatra::Base
     if lr.from_router?
       @sites.each do |host, port|
         job = BundlerApiReplay::Job.new(lr.path, host, port)
+        @logger.info("Job Enqueued: http://#{job.host}:#{job.port}#{job.path}")
         @pool.enq(job)
       end
     end
