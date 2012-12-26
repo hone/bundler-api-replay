@@ -5,13 +5,12 @@ class BundlerApiReplay::LogplexProcessor
   LineRegex = %r{
     (?<time>\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00){0}
     (?<process>[a-z0-9\-\_\.]+){0}
-    (?<uuid>[a-z0-9\-\_\.]+){0}
     (?<body>.*){0}
 
-    ^\d+\s\<\d+\>1\s\g<time>\s[a-z0-9-]+\s\g<process>\s\g<uuid>\s\-\s\g<body>$
+    ^\g<time>\s(heroku|app)\[\g<process>\]:\s\g<body>$
   }x
 
-  attr_reader :time, :process, :uuid, :body
+  attr_reader :time, :process, :body
 
   def initialize(input)
     @input     = input
@@ -19,7 +18,6 @@ class BundlerApiReplay::LogplexProcessor
 
     @time    = Time.parse(match_data[:time])
     @process = match_data[:process]
-    @uuid    = match_data[:uuid]
     @body    = match_data[:body]
   end
 end
