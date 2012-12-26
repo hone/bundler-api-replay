@@ -1,16 +1,17 @@
 require 'net/http'
-require 'uri'
 require_relative '../bundler_api_replay'
 
 class BundlerApiReplay::Job
-  def initialize(request, host, port = 80)
-    @request = URI.parse("http://#{request}")
-    @host    = host
-    @port    = port
+  attr_reader :path, :host, :port
+
+  def initialize(path, host, port = 80)
+    @path = path
+    @host = host
+    @port = port
   end
 
   def run
     http = Net::HTTP.new(@host, @port)
-    http.request(Net::HTTP::Get.new("#{@request.path}?#{@request.query}"))
+    http.request(Net::HTTP::Get.new(@path))
   end
 end

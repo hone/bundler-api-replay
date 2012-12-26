@@ -10,11 +10,11 @@ describe BundlerApiReplay::Job do
     end
   end
 
-  let(:request) { "foo.com/blargh?gems=boo" }
+  let(:path) { "/blargh?gems=boo" }
   let(:host) { 'localhost' }
 
   it "runs the job" do
-    job      = BundlerApiReplay::Job.new(request, host)
+    job      = BundlerApiReplay::Job.new(path, host)
     response = nil
 
     Artifice.activate_with(CheckPath) do
