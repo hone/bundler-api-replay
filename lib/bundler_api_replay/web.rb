@@ -29,6 +29,7 @@ class BundlerApiReplay::Web < Sinatra::Base
         @logger.info("Job Enqueued: http://#{job.host}:#{job.port}#{job.path}")
         @pool.enq(job)
         if @conn
+          @logger.info("StoreJob Enqueued: http://#{job.host}:#{job.port}#{job.path}")
           db_job = BundlerApiReplay::StoreJob.new(@conn, request, host, port)
           @pool.enq(db_job)
         end
