@@ -6,7 +6,7 @@ require_relative 'job'
 require_relative 'store_job'
 
 class BundlerApiReplay::Web < Sinatra::Base
-  def initialize(pool, sites, conn)
+  def initialize(pool, sites, conn = nil)
     super()
 
     @pool   = pool
