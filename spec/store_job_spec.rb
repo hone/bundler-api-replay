@@ -6,6 +6,9 @@ describe BundlerApiReplay::StoreJob do
   let(:conn) { Sequel.connect(ENV["TEST_DATABASE_URL"]) }
   let(:path) { "/foo" }
   let(:host) { 'localhost' }
+  around(:each) do |example|
+    conn.transaction(:rollback => :always) { example.run }
+  end
 
   it "runs the job" do
     job    = BundlerApiReplay::StoreJob.new(conn, path, host)

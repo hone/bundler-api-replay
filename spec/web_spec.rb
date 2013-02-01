@@ -17,6 +17,9 @@ describe BundlerApiReplay::Web do
       port: port
     )
   end
+  around(:each) do |example|
+    conn.transaction(:rollback => :always) { example.run }
+  end
 
   def app
     BundlerApiReplay::Web.new(pool, conn)
