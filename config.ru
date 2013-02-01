@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sequel'
 require './lib/bundler_api_replay/web'
 require './lib//bundler_api/consumer_pool'
 
@@ -12,7 +13,10 @@ sites = [[ENV['DEST_HOST'], ENV['DEST_PORT']]]
 
 pool.start
 
-web    = Thread.new { run BundlerApiReplay::Web.new(pool, sites) }
+web    = Thread.new {
+  conn = Sequel.connect(ENV["DATABASE_URL"])
+  run BundlerApiReplay::Web.new(pool, sites, conn)
+}
 web.join
 
 at_exit do

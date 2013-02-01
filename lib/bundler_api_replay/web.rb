@@ -3,14 +3,16 @@ require 'logger'
 require_relative '../bundler_api_replay'
 require_relative 'logplex_router'
 require_relative 'job'
+require_relative 'store_job'
 
 class BundlerApiReplay::Web < Sinatra::Base
-  def initialize(pool, sites)
+  def initialize(pool, sites, conn)
     super()
 
     @pool   = pool
     @sites  = sites
     @logger = Logger.new(STDOUT)
+    @conn   = conn
   end
 
   post "/logs" do
@@ -24,6 +26,10 @@ class BundlerApiReplay::Web < Sinatra::Base
         job = BundlerApiReplay::Job.new(lr.path, host, port)
         @logger.info("Job Enqueued: http://#{job.host}:#{job.port}#{job.path}")
         @pool.enq(job)
+        if @conn
+          db_job = BundlerApiReplay::StoreJob.new(@conn, lr.path, host, port)
+          @pool.enq(db_job)
+        end
       end
     end
 
