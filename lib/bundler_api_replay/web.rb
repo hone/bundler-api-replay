@@ -6,13 +6,13 @@ require_relative 'job'
 require_relative 'store_job'
 
 class BundlerApiReplay::Web < Sinatra::Base
-  def initialize(pool, sites, conn = nil)
+  def initialize(pool, conn)
     super()
 
     @pool   = pool
+    @conn   = conn
     @sites  = sites
     @logger = Logger.new(STDOUT)
-    @conn   = conn
   end
 
   post "/logs" do
@@ -24,8 +24,10 @@ class BundlerApiReplay::Web < Sinatra::Base
     if lr.from_router?
       request = lr.request
 
-      @sites.each do |host, port|
-        job = BundlerApiReplay::Job.new(request, host, port)
+      @sites.each do |site|
+        host = site[:host]
+        port = site[:port]
+        job  = BundlerApiReplay::Job.new(request, host, port)
         @logger.info("Job Enqueued: http://#{job.host}:#{job.port}#{job.path}")
         @pool.enq(job)
         if @conn
@@ -37,5 +39,10 @@ class BundlerApiReplay::Web < Sinatra::Base
     end
 
     ""
+  end
+
+  private
+  def sites
+    @conn[:sites].all
   end
 end

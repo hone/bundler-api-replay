@@ -9,13 +9,12 @@ Thread.abort_on_exception = true
 NUM_THREADS = 3
 
 pool  = BundlerApi::ConsumerPool.new(NUM_THREADS)
-sites = [[ENV['DEST_HOST'], ENV['DEST_PORT']]]
 
 pool.start
 
 web    = Thread.new {
   conn = Sequel.connect(ENV["DATABASE_URL"])
-  run BundlerApiReplay::Web.new(pool, sites, conn)
+  run BundlerApiReplay::Web.new(pool, conn)
 }
 web.join
 
