@@ -4,6 +4,8 @@ module BundlerApi
   class ConsumerPool
     POISON = :poison
 
+    attr_reader :queue
+
     def initialize(size)
       @size    = size
       @queue   = Queue.new
