@@ -46,6 +46,10 @@ class BundlerApiReplay::Web < Sinatra::Base
     ""
   end
 
+  get "/test" do
+    "OK"
+  end
+
   private
   def sites
     @conn[:sites].all
