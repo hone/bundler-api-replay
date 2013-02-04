@@ -6,6 +6,10 @@ require_relative 'job'
 require_relative 'store_job'
 
 class BundlerApiReplay::Web < Sinatra::Base
+  use Rack::Auth::Basic do |username, password|
+    password == ENV['AUTH_PASSWORD']
+  end
+
   def initialize(pool, conn)
     super()
 
