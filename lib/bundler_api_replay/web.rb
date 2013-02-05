@@ -27,17 +27,15 @@ class BundlerApiReplay::Web < Sinatra::Base
     lr   = BundlerApiReplay::LogplexRouter.new(body)
 
     if lr.from_router?
-      request = lr.request
-
       @sites.each do |site|
         host = site[:host]
         port = site[:port]
-        job  = BundlerApiReplay::Job.new(request, host, port)
+        job  = BundlerApiReplay::Job.new(lr.path, host, port)
         @logger.info("Job Enqueued: http://#{job.host}:#{job.port}#{job.path}")
         @pool.enq(job)
         if @conn
           @logger.info("StoreJob Enqueued: http://#{job.host}:#{job.port}#{job.path}")
-          db_job = BundlerApiReplay::StoreJob.new(@conn, request, host, port)
+          db_job = BundlerApiReplay::StoreJob.new(@conn, lr.path, host, port)
           @pool.enq(db_job)
         end
       end
