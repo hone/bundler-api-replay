@@ -35,7 +35,7 @@ describe BundlerApiReplay::Web do
       end
 
       context "when a router log" do
-        let(:input) { "2012-12-26T18:12:38+00:00 heroku[router]: at=info method=GET path=/api/v1/dependencies?gems=bones-rcov,bones-rubyforge,bones-rspec,bones-zentest,net-ssh,linecache host=bundler-api.herokuapp.com fwd=72.4.120.81 dyno=web.11 queue=0 wait=0ms connect=1ms service=11ms status=200 bytes=5613" }
+        let(:input) { "453 <158>1 2013-02-05T02:05:20+00:00 heroku router d.615f2863-24cc-41b4-85c5-1466dc514218 - at=info method=GET path=/api/v1/dependencies?gems=haml,bones,terminal-table,lumberjack,pry,sys-uname,growl,libnotify,bundler,open_gem,win32-open3,test-spec,camping,fcgi,memcache-client,mongrel,ruby-openid,thin,json,win32-api,therubyracer host=bundler-api.herokuapp.com fwd=54.245.255.174 dyno=web.2 queue=0 wait=0ms connect=3ms service=99ms status=200 bytes=123176" }
 
         it "enqueues jobs if a router request" do
           post "/logs", input
@@ -50,13 +50,13 @@ describe BundlerApiReplay::Web do
           [replay_job, store_job].each do |job|
             expect(job.host).to eq(host)
             expect(job.port).to eq(port)
-            expect(job.path).to eq("/api/v1/dependencies?gems=bones-rcov,bones-rubyforge,bones-rspec,bones-zentest,net-ssh,linecache")
+            expect(job.path).to eq("/api/v1/dependencies?gems=haml,bones,terminal-table,lumberjack,pry,sys-uname,growl,libnotify,bundler,open_gem,win32-open3,test-spec,camping,fcgi,memcache-client,mongrel,ruby-openid,thin,json,win32-api,therubyracer")
           end
         end
       end
 
-      context "when a sinatra log" do
-        let(:input) { %q{2012-12-26T18:12:38+00:00 app[web.4]: 72.4.120.81 - - [26/Dec/2012 18:12:38] "GET /api/v1/dependencies?gems=mhennemeyer-output_catcher,peterwald-git,schacon-git,tenderlove-frex,relevance-rcov,mojombo-chronic,rspec_junit_formatter,mislav-will_paginate,mongodb-mongo,spicycode-rcov,faraday,hashie,multi_xml,yajl-ruby,net-http-digest_auth HTTP/1.1" 200 9955 0.0109} }
+      context "when a postgres log" do
+        let(:input) { %q{245 <134>1 2013-02-05T03:12:18+00:00 app postgres d.615f2863-24cc-41b4-85c5-1466dc514218 - [23799-1] uevm0cffc58fgd [TEAL] LOG:  duration: 54.447 ms  statement:       SELECT rv.name, rv.number, rv.platform, d.requirements, for_dep_name.name dep_name} }
 
         it "does not enqueue a job" do
           post "/logs", input

@@ -1,6 +1,6 @@
 require_relative 'logplex_processor'
 
-class BundlerApiReplay::LogplexRouter < BundlerApiReplay::LogplexProcessor
+class BundlerApiReplay::LogplexRouter
   RouterRegex = %r{
     (?<method>GET|POST){0}
     (?<path>.*){0}
@@ -20,9 +20,7 @@ class BundlerApiReplay::LogplexRouter < BundlerApiReplay::LogplexProcessor
   attr_reader :method, :path, :host, :fwd, :dyno, :queue, :wait, :connect, :service, :status, :bytes
 
   def initialize(input)
-    super(input)
-
-    md = RouterRegex.match(@body)
+    md = RouterRegex.match(input)
     if md
       @match   = true
       @method  = md[:method]

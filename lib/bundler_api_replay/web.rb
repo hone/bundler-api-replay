@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'logger'
 require_relative '../bundler_api_replay'
+require_relative 'logplex_processor'
 require_relative 'logplex_router'
 require_relative 'job'
 require_relative 'store_job'
@@ -23,8 +24,9 @@ class BundlerApiReplay::Web < Sinatra::Base
     @logger.info("Pool Size: #{@pool.queue_size}")
     @logger.info("Sites: #{@sites}")
 
-    body = request.body.read
-    lr   = BundlerApiReplay::LogplexRouter.new(body)
+    payload = request.body.read
+    body    = BundlerApiReplay::LogplexProcessor.new(payload)
+    lr      = BundlerApiReplay::LogplexRouter.new(body.body)
 
     if lr.from_router?
       @sites.each do |site|

@@ -5,7 +5,7 @@ describe BundlerApiReplay::LogplexRouter do
   let(:processor) { BundlerApiReplay::LogplexRouter.new(input) }
   
   context "when using a router logplex line" do
-    let(:input) { "2012-12-22T04:41:31+00:00 heroku[router]: at=info method=GET path=/api/v1/dependencies?gems=bones-rcov,bones-rubyforge,bones-rspec,bones-zentest,git,metaclass,net-ssh,SexpProcessor,test-unit host=bundler-api.herokuapp.com fwd=72.4.120.81 dyno=web.4 queue=0 wait=0ms connect=2ms service=13ms status=200 bytes=7118" }
+    let(:input) { "at=info method=GET path=/api/v1/dependencies?gems=bones-rcov,bones-rubyforge,bones-rspec,bones-zentest,git,metaclass,net-ssh,SexpProcessor,test-unit host=bundler-api.herokuapp.com fwd=72.4.120.81 dyno=web.4 queue=0 wait=0ms connect=2ms service=13ms status=200 bytes=7118" }
 
     it "creates a valid object" do
       expect(processor).to be_true
