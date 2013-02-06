@@ -6,7 +6,7 @@ require './lib//bundler_api/consumer_pool'
 $stdout.sync              = true
 Thread.abort_on_exception = true
 
-NUM_THREADS = 3
+NUM_THREADS = ENV['THREADS'].to_i
 
 pool  = BundlerApi::ConsumerPool.new(NUM_THREADS)
 
