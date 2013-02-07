@@ -7,8 +7,9 @@ $stdout.sync              = true
 Thread.abort_on_exception = true
 
 NUM_THREADS = ENV['THREADS'].to_i
+JOB_TIMEOUT = ENV['TIMEOUT'].to_i
 
-pool  = BundlerApi::ConsumerPool.new(NUM_THREADS, 30)
+pool  = BundlerApi::ConsumerPool.new(NUM_THREADS, JOB_TIMEOUT)
 
 pool.start
 
