@@ -48,7 +48,7 @@ module BundlerApi
               job.run
             end
           rescue Timeout::Error => e
-            @logger.info("Job timed out.")
+            @logger.info("Job timed out: #{job.to_s}")
           end
         end
       }
