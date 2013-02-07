@@ -1,4 +1,6 @@
 require 'thread'
+require 'timeout'
+require 'logger'
 
 module BundlerApi
   class ConsumerPool
@@ -6,9 +8,11 @@ module BundlerApi
 
     attr_reader :queue
 
-    def initialize(size)
+    def initialize(size, timeout = 0, logger = Logger.new(STDOUT))
       @size    = size
       @queue   = Queue.new
+      @logger  = logger
+      @timeout = timeout
       @threads = []
     end
 
@@ -39,7 +43,13 @@ module BundlerApi
           job = @queue.deq
           break if job == POISON
 
-          job.run
+          begin
+            Timeout.timeout(@timeout) do
+              job.run
+            end
+          rescue Timeout::Error => e
+            @logger.info("Job timed out.")
+          end
         end
       }
     end

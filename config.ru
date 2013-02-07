@@ -8,7 +8,7 @@ Thread.abort_on_exception = true
 
 NUM_THREADS = ENV['THREADS'].to_i
 
-pool  = BundlerApi::ConsumerPool.new(NUM_THREADS)
+pool  = BundlerApi::ConsumerPool.new(NUM_THREADS, 5)
 
 pool.start
 
