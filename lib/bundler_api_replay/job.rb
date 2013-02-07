@@ -14,4 +14,8 @@ class BundlerApiReplay::Job
     http = Net::HTTP.new(@host, @port)
     http.request(Net::HTTP::Get.new(@path))
   end
+
+  def to_s
+    "BundlerApiReplay::Job: path: #{@path}, port: #{@port}, host: #{@host}"
+  end
 end
