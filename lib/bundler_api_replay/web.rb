@@ -54,6 +54,6 @@ class BundlerApiReplay::Web < Sinatra::Base
 
   private
   def sites
-    @conn[:sites].all
+    @conn[:sites].where(:on => true).all
   end
 end
