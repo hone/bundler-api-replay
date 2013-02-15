@@ -40,14 +40,12 @@ describe BundlerApiReplay::Web do
         it "enqueues jobs if a router request" do
           post "/logs", input
 
-          expect(pool.queue_size).to eq(2)
+          expect(pool.queue_size).to eq(1)
           expect(last_response.status).to eq(200)
 
           replay_job = pool.queue.pop
-          store_job  = pool.queue.pop
           expect(replay_job).to be_a(BundlerApiReplay::Job)
-          expect(store_job).to be_a(BundlerApiReplay::StoreJob)
-          [replay_job, store_job].each do |job|
+          [replay_job].each do |job|
             expect(job.host).to eq(host)
             expect(job.port).to eq(port)
             expect(job.path).to eq("/api/v1/dependencies?gems=haml,bones,terminal-table,lumberjack,pry,sys-uname,growl,libnotify,bundler,open_gem,win32-open3,test-spec,camping,fcgi,memcache-client,mongrel,ruby-openid,thin,json,win32-api,therubyracer")
