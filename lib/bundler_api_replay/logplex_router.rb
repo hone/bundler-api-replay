@@ -6,7 +6,7 @@ class BundlerApiReplay::LogplexRouter
     (?<path>.*){0}
     (?<host>.*){0}
     (?<fwd>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}){0}
-    (?<dyno>[a-zA-Z]+[.][0-9]+){0}
+    (?<dyno>[a-zA-Z]+\.[0-9]+){0}
     (?<queue>\d+){0}
     (?<wait>\d+){0}
     (?<connect>\d+){0}
