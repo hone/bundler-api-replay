@@ -6,7 +6,6 @@ gem "sinatra"
 gem "puma"
 gem "sequel"
 gem "pg"
-gem "metriks-middleware"
 
 group :test do
   gem 'rspec-core'

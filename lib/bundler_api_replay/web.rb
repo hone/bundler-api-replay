@@ -1,15 +1,12 @@
 require 'sinatra/base'
 require 'logger'
 require_relative '../bundler_api_replay'
-require_relative '../bundler_api_replay/metriks'
 require_relative 'logplex_processor'
 require_relative 'logplex_router'
 require_relative 'job'
 require_relative 'store_job'
 
 class BundlerApiReplay::Web < Sinatra::Base
-  use Metriks::Middleware unless ENV['RACK_ENV'] == 'test'
-
   use Rack::Auth::Basic do |username, password|
     password == ENV['AUTH_PASSWORD']
   end
