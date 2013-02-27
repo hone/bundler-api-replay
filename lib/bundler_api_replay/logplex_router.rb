@@ -14,7 +14,7 @@ class BundlerApiReplay::LogplexRouter
     (?<status>\d+){0}
     (?<bytes>\d+){0}
 
-    ^at=info\smethod=\g<method>\spath=\g<path>\shost=\g<host>\sfwd=\g<fwd>\sdyno=\g<dyno>\squeue=\g<queue>\swait=\g<wait>ms\sconnect=\g<connect>ms\sservice=\g<service>ms\sstatus=\g<status>\sbytes=\g<bytes>$
+    ^at=info\smethod=\g<method>\spath=\g<path>\shost=\g<host>\sfwd=["']?\g<fwd>["']?\sdyno=\g<dyno>\squeue=\g<queue>\swait=\g<wait>ms\sconnect=\g<connect>ms\sservice=\g<service>ms\sstatus=\g<status>\sbytes=\g<bytes>$
   }x
 
   attr_reader :method, :path, :host, :fwd, :dyno, :queue, :wait, :connect, :service, :status, :bytes
