@@ -5,7 +5,7 @@ describe BundlerApiReplay::LogplexRouter do
   let(:processor) { BundlerApiReplay::LogplexRouter.new(input) }
   
   context "when using a router logplex line" do
-    let(:input) { "at=info method=GET path=/api/v1/dependencies?gems=bones-rcov,bones-rubyforge,bones-rspec,bones-zentest,git,metaclass,net-ssh,SexpProcessor,test-unit host=bundler-api.herokuapp.com fwd=72.4.120.81 dyno=web.4 queue=0 wait=0ms connect=2ms service=13ms status=200 bytes=7118" }
+    let(:input) { %q{at=info method=GET path=/api/v1/dependencies?gems=spoon,configuration,ffi,rspec-mocks,rspec-expectations,rspec-core,cucumber,diff-lcs,spicycode-rcov host=bundler.rubygems.org fwd="72.4.120.81" dyno=web.3 queue=0 wait=0ms connect=2ms service=41ms status=200 bytes=44571} }
 
     it "creates a valid object" do
       expect(processor).to be_true
@@ -20,11 +20,11 @@ describe BundlerApiReplay::LogplexRouter do
     end
 
     it "parses the path" do
-      expect(processor.path).to eq("/api/v1/dependencies?gems=bones-rcov,bones-rubyforge,bones-rspec,bones-zentest,git,metaclass,net-ssh,SexpProcessor,test-unit")
+      expect(processor.path).to eq("/api/v1/dependencies?gems=spoon,configuration,ffi,rspec-mocks,rspec-expectations,rspec-core,cucumber,diff-lcs,spicycode-rcov")
     end
 
     it "parses the host" do
-      expect(processor.host).to eq("bundler-api.herokuapp.com")
+      expect(processor.host).to eq("bundler.rubygems.org")
     end
 
     it "parses the fwd" do
@@ -32,7 +32,7 @@ describe BundlerApiReplay::LogplexRouter do
     end
 
     it "parses the dyno" do
-      expect(processor.dyno).to eq("web.4")
+      expect(processor.dyno).to eq("web.3")
     end
 
     it "parses the queue" do
@@ -48,7 +48,7 @@ describe BundlerApiReplay::LogplexRouter do
     end
 
     it "parses the service" do
-      expect(processor.service).to eq("13")
+      expect(processor.service).to eq("41")
     end
 
     it "parses the status" do
@@ -56,7 +56,7 @@ describe BundlerApiReplay::LogplexRouter do
     end
 
     it "parses the bytes" do
-      expect(processor.bytes).to eq("7118")
+      expect(processor.bytes).to eq("44571")
     end
   end
 
