@@ -25,17 +25,21 @@ class BundlerApiReplay::Web < Sinatra::Base
     @logger.info("Sites: #{@sites}")
 
     payload = request.body.read
-    body    = BundlerApiReplay::LogplexProcessor.new(payload)
-    lr      = BundlerApiReplay::LogplexRouter.new(body.body)
+    begin
+      body    = BundlerApiReplay::LogplexProcessor.new(payload)
+      lr      = BundlerApiReplay::LogplexRouter.new(body.body)
 
-    if lr.from_router?
-      @sites.each do |site|
-        host = site[:host]
-        port = site[:port]
-        job  = BundlerApiReplay::Job.new(lr.path, host, port)
-        @logger.info("Job Enqueued: http://#{job.host}:#{job.port}#{job.path}")
-        @pool.enq(job)
+      if lr.from_router?
+        @sites.each do |site|
+          host = site[:host]
+          port = site[:port]
+          job  = BundlerApiReplay::Job.new(lr.path, host, port)
+          @logger.info("Job Enqueued: http://#{job.host}:#{job.port}#{job.path}")
+          @pool.enq(job)
+        end
       end
+    rescue BundlerApiReplay::LogParseError => e
+      $stderr.puts e.message
     end
 
     ""
