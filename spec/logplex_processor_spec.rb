@@ -35,4 +35,12 @@ describe BundlerApiReplay::LogplexProcessor do
       expect {logplex_processor }.to raise_error(BundlerApiReplay::LogParseError)
     end
   end
+
+  context "new time format" do
+    let(:input) { %q{397 <158>1 2013-04-09T16:02:12.584075+00:00 heroku router d.615f2863-24cc-41b4-85c5-1466dc514218 - at=info method=GET path=/api/v1/dependencies?gems=gherkin,term-ansicolor,json_pure,net-scp,metaclass,racc,tenderlove-frex,rake-compiler,rexical,weakling host=bundler.rubygems.org request_id=c957d86bb3f25d3d77ed90942430d81a fwd="182.169.44.41" dyno=web.2 connect=0ms service=70ms status=200 bytes=51973} }
+
+    it "creates a valid object" do
+      expect(logplex_processor).to be_true
+    end
+  end
 end

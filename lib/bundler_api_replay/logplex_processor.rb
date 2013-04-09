@@ -4,7 +4,7 @@ require_relative 'errors'
 
 class BundlerApiReplay::LogplexProcessor
   LineRegex = %r{
-    (?<time>\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00){0}
+    (?<time>\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d{6})?\+00:00){0}
     (?<process>[a-z0-9\-\_\.]+){0}
     (?<uuid>[a-z0-9\-\_\.]+){0}
     (?<body>.*){0}
