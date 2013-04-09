@@ -71,4 +71,16 @@ describe BundlerApiReplay::LogplexRouter do
       expect(processor.from_router?).to be_false
     end
   end
+
+  context "remove queue and wait" do
+    let(:input) { %q{at=info method=GET path=/api/v1/dependencies?gems=gherkin,term-ansicolor,json_pure,net-scp,metaclass,racc,tenderlove-frex,rake-compiler,rexical,weakling host=bundler.rubygems.org request_id=c957d86bb3f25d3d77ed90942430d81a fwd="182.169.44.41" dyno=web.2 connect=0ms service=70ms status=200 bytes=51973} }
+
+    it "creates a valid object" do
+      expect(processor).to be_true
+    end
+
+    it "is from the router" do
+      expect(processor.from_router?).to be_true
+    end
+  end
 end
