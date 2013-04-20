@@ -35,7 +35,7 @@ describe BundlerApiReplay::Web do
       end
 
       context "when a router log" do
-        let(:input) { "453 <158>1 2013-02-05T02:05:20+00:00 heroku router d.615f2863-24cc-41b4-85c5-1466dc514218 - at=info method=GET path=/api/v1/dependencies?gems=haml,bones,terminal-table,lumberjack,pry,sys-uname,growl,libnotify,bundler,open_gem,win32-open3,test-spec,camping,fcgi,memcache-client,mongrel,ruby-openid,thin,json,win32-api,therubyracer host=bundler-api.herokuapp.com fwd=54.245.255.174 dyno=web.2 queue=0 wait=0ms connect=3ms service=99ms status=200 bytes=123176" }
+        let(:input) { "453 <158>1 2013-02-05T02:05:20+00:00 d.615f2863-24cc-41b4-85c5-1466dc514218 heroku router - - at=info method=GET path=/api/v1/dependencies?gems=haml,bones,terminal-table,lumberjack,pry,sys-uname,growl,libnotify,bundler,open_gem,win32-open3,test-spec,camping,fcgi,memcache-client,mongrel,ruby-openid,thin,json,win32-api,therubyracer host=bundler-api.herokuapp.com fwd=54.245.255.174 dyno=web.2 queue=0 wait=0ms connect=3ms service=99ms status=200 bytes=123176" }
 
         it "enqueues jobs if a router request" do
           post "/logs", input

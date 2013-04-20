@@ -9,7 +9,7 @@ class BundlerApiReplay::LogplexProcessor
     (?<uuid>[a-z0-9\-\_\.]+){0}
     (?<body>.*){0}
 
-    ^\d+\s\<\d+\>1\s\g<time>\s[a-z0-9-]+\s\g<process>\s\g<uuid>\s\-\s\g<body>$
+    ^\d+\s\<\d+\>1\s\g<time>\s\g<uuid>\s[a-z0-9-]+\s\g<process>\s-\s-\s\g<body>$
   }x
 
   attr_reader :time, :process, :uuid, :body
