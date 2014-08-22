@@ -5,7 +5,7 @@ describe BundlerApiReplay::LogplexRouter do
   let(:processor) { BundlerApiReplay::LogplexRouter.new(input) }
   
   context "when using a router logplex line" do
-    let(:input) { %q{at=info method=GET path=/api/v1/dependencies?gems=spoon,configuration,ffi,rspec-mocks,rspec-expectations,rspec-core,cucumber,diff-lcs,spicycode-rcov host=bundler.rubygems.org fwd="72.4.120.81" dyno=web.3 queue=0 wait=0ms connect=2ms service=41ms status=200 bytes=44571} }
+    let(:input) { %q{at=info method=GET path="/api/v1/dependencies?gems=spoon,configuration,ffi,rspec-mocks,rspec-expectations,rspec-core,cucumber,diff-lcs,spicycode-rcov" host=bundler.rubygems.org fwd="72.4.120.81" dyno=web.3 queue=0 wait=0ms connect=2ms service=41ms status=200 bytes=44571} }
 
     it "creates a valid object" do
       expect(processor).to be_true
