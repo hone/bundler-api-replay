@@ -1,4 +1,5 @@
 require 'net/http'
+require 'zlib'
 require 'concurrent'
 require_relative '../bundler_api_replay'
 
@@ -15,7 +16,7 @@ class BundlerApiReplay::Job
   def run
     http = Net::HTTP.new(@host, @port)
     http.request(Net::HTTP::Get.new(@path))
-  rescue EOFError => e
+  rescue EOFError, Zlib::Error => e
     # Bad responses from crashed hosts raise an EOFError.
     #   https://gist.github.com/lmarburger/9d063165e57743987a92
     logger.warn "EOFError: #{to_s}"
