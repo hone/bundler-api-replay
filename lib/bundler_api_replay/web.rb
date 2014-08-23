@@ -18,11 +18,11 @@ class BundlerApiReplay::Web < Sinatra::Base
     @sites   = sites
     @timeout = timeout
     @logger  = Logger.new(STDOUT)
+    @logger.info("Sites: #{@sites}")
   end
 
   post "/logs" do
     @logger.info("Pool Size: #{@pool.queue_length}")
-    @logger.info("Sites: #{@sites}")
 
     payload = request.body.read
     begin
