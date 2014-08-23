@@ -7,7 +7,7 @@ $stdout.sync              = true
 Thread.abort_on_exception = true
 
 NUM_THREADS = ENV['THREADS'].to_i
-JOB_TIMEOUT = ENV['TIMEOUT'].to_i
+JOB_TIMEOUT = ENV['JOB_TIMEOUT'].to_i
 
 pool   = Concurrent::FixedThreadPool.new(NUM_THREADS)
 web    = Thread.new {
