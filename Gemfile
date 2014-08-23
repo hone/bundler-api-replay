@@ -6,6 +6,7 @@ gem "sinatra"
 gem "puma"
 gem "sequel"
 gem "pg"
+gem "concurrent-ruby"
 
 group :test do
   gem 'rspec-core'

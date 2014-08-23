@@ -3,6 +3,7 @@ GEM
   specs:
     artifice (0.6)
       rack-test
+    concurrent-ruby (0.7.0)
     diff-lcs (1.2.1)
     pg (0.14.1)
     puma (1.6.3)
@@ -28,6 +29,7 @@ PLATFORMS
 
 DEPENDENCIES
   artifice
+  concurrent-ruby
   pg
   puma
   rack-test
