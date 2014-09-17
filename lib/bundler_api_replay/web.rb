@@ -10,10 +10,9 @@ class BundlerApiReplay::Web < Sinatra::Base
     password == ENV['AUTH_PASSWORD']
   end
 
-  def initialize(pool, conn, timeout)
+  def initialize(conn, timeout)
     super()
 
-    @pool    = pool
     @conn    = conn
     @sites   = sites
     @timeout = timeout
@@ -22,8 +21,6 @@ class BundlerApiReplay::Web < Sinatra::Base
   end
 
   post "/logs" do
-    @logger.info("Pool Size: #{@pool.queue_length}")
-
     payload = request.body.read
     begin
       body    = BundlerApiReplay::LogplexProcessor.new(payload)
@@ -33,9 +30,7 @@ class BundlerApiReplay::Web < Sinatra::Base
         @sites.each do |site|
           host = site[:host]
           port = site[:port]
-          job = BundlerApiReplay::Job.new(lr.path, host, port, @timeout)
-          @pool << job.to_proc
-          @logger.info("Job Enqueued: http://#{job.host}:#{job.port}#{job.path}")
+          BundlerApiReplay::Job.perform_async(path: lr.path, host: host, port: port, logger: @logger, timeout: @timeout)
         end
       end
     rescue BundlerApiReplay::LogParseError => e

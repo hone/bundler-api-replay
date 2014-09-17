@@ -14,11 +14,10 @@ describe BundlerApiReplay::Job do
   let(:host) { 'localhost' }
 
   it "runs the job" do
-    job      = BundlerApiReplay::Job.new(path, host)
     response = nil
 
     Artifice.activate_with(CheckPath) do
-      response = job.run
+      response = BundlerApiReplay::Job.new.perform(path: path, host: host)
     end
 
     expect(response.body).to eq("sgb")

@@ -7,6 +7,7 @@ gem "puma"
 gem "sequel"
 gem "pg"
 gem "concurrent-ruby"
+gem "sidekiq"
 
 group :test do
   gem 'rspec-core'
