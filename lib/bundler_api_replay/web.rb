@@ -30,7 +30,7 @@ class BundlerApiReplay::Web < Sinatra::Base
         @sites.each do |site|
           host = site[:host]
           port = site[:port]
-          BundlerApiReplay::Job.perform_async(lr.path, host, port, @logger, @timeout)
+          BundlerApiReplay::Job.perform_async(lr.path, host, port, @timeout)
         end
       end
     rescue BundlerApiReplay::LogParseError => e
