@@ -10,6 +10,7 @@ class BundlerApiReplay::Job
   def perform(path, host, port = 80, timeout = 5)
     logger = Logger.new(STDOUT)
     http   = Net::HTTP.new(host, port)
+    http.read_timeout = timeout
     http.request(Net::HTTP::Get.new(path))
   rescue EOFError, Zlib::Error => e
     # Bad responses from crashed hosts raise an EOFError.
