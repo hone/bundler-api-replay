@@ -1,11 +1,18 @@
 require 'sinatra'
 require 'sequel'
+require 'sidekiq/web'
 require './lib/bundler_api_replay/web'
 
-$stdout.sync              = true
-Thread.abort_on_exception = true
+$stdout.sync = true
+JOB_TIMEOUT  = ENV['JOB_TIMEOUT'].to_i
+conn         = Sequel.connect(ENV["DATABASE_URL"])
 
-JOB_TIMEOUT = ENV['JOB_TIMEOUT'].to_i
+map "/sidekiq" do
+  use Rack::Auth::Basic do |username, password|
+    password == ENV['AUTH_PASSWORD']
+  end
 
-conn = Sequel.connect(ENV["DATABASE_URL"])
+  run Sidekiq::Web
+end
+
 run BundlerApiReplay::Web.new(conn, JOB_TIMEOUT)
