@@ -12,9 +12,5 @@ class BundlerApiReplay::Job
     http   = Net::HTTP.new(host, port)
     http.read_timeout = timeout
     http.request(Net::HTTP::Get.new(path))
-  rescue EOFError, Zlib::Error, Net::ReadTimeout => e
-    # Bad responses from crashed hosts raise an EOFError.
-    #   https://gist.github.com/lmarburger/9d063165e57743987a92
-    logger.warn e.message
   end
 end
