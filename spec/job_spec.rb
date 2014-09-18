@@ -17,7 +17,7 @@ describe BundlerApiReplay::Job do
     response = nil
 
     Artifice.activate_with(CheckPath) do
-      response = BundlerApiReplay::Job.new.perform(path: path, host: host)
+      response = BundlerApiReplay::Job.new.perform(path, host)
     end
 
     expect(response.body).to eq("sgb")

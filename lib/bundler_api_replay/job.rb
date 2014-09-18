@@ -7,7 +7,7 @@ require_relative '../../config/sidekiq'
 class BundlerApiReplay::Job
   include Sidekiq::Worker
 
-  def perform(path: , host: , port: 80, logger: Logger.new(STDOUT), timeout: 5)
+  def perform(path, host, port = 80, logger = Logger.new(STDOUT), timeout = 5)
     http = Net::HTTP.new(host, port)
     http.request(Net::HTTP::Get.new(path))
   rescue EOFError, Zlib::Error => e
